@@ -2,17 +2,16 @@ import React from 'react'
 import styles from './Header.module.scss'
 
 import userIcon from '../../../images/user.svg'
-import hamburgerIcon from '../../../images/hamburger.svg'
+import { Link } from 'react-router-dom'
+import Humburger from '../Humburger/Humburger'
 
 function Header() {
   return (
     <header className={styles.header}>
-        <button>
+        <Link to='/'>
             <img src={userIcon} alt="user" />
-        </button>
-        <button>
-            <img src={hamburgerIcon} alt="hamburger" />
-        </button>
+        </Link>
+        <Humburger/>
     </header>
   )
 }
