@@ -1,0 +1,22 @@
+@import "../../../scss/variables";
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.heading {
+  font-size: 28px;
+  line-height: 130.19%;
+
+  text-align: center;
+
+  color: #8a7474;
+}
+
+.number {
+  font-size: 26px;
+  line-height: 30px;
+  text-align: center;
+
+  color: $white;
+}
