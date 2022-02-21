@@ -2,7 +2,8 @@ import React from 'react'
 import Counters from '../../common/Counters/Counters'
 import Layout from '../../Layout/Layout'
 import Button from '../../ui/Button/Button'
-import bgImg from '../../../images/home-bg.jpg'
+// import bgImg from '../../../images/home-bg.jpg'
+import bgImg from '../../../images/bg.jpg'
 import styles from './Home.module.scss'
 
 function Home() {

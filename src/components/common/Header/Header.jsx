@@ -2,15 +2,26 @@ import React from 'react'
 import styles from './Header.module.scss'
 
 import userIcon from '../../../images/user.svg'
-import { Link } from 'react-router-dom'
+import arrowIcon from '../../../images/Arrow.svg'
+import { Link, useLocation } from 'react-router-dom'
 import Humburger from '../Humburger/Humburger'
 
 function Header() {
+  
+  const {pathname} = useLocation()
+  
   return (
     <header className={styles.header}>
-        <Link to='/'>
-            <img src={userIcon} alt="user" />
-        </Link>
+        {pathname === '/' ?
+                      <Link to='/'>
+                        <img className={styles.image} src={userIcon} alt="user"/>
+                      </Link>
+           
+          :
+                      <Link to='/'>
+                        <img className={styles.image} src={arrowIcon} alt="arrow"/>
+                      </Link>
+      }
         <Humburger/>
     </header>
   )

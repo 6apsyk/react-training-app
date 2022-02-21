@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Layout.module.scss'
 import Header from '../common/Header/Header'
 
-function Layout({children, bgImg, height}) {
+function Layout({children, bgImg, height = '35vh'}) {
   return (
     <div className={styles.wrapper} style={{height: height, backgroundImage: `url(${bgImg})`}}>
         <Header/>

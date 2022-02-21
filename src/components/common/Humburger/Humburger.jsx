@@ -5,11 +5,14 @@ import hamburgerClose from '../../../images/hamburger-close.svg'
 
 import styles from './Humburger.module.scss'
 import cn from 'classnames'
+import { Link } from 'react-router-dom'
 
 
 function Humburger() {
 
 const [show,setShow] = useState(false)
+
+const handleLogout = () => {}
 
   return (
       <div className={styles.wrapper}>
@@ -19,11 +22,19 @@ const [show,setShow] = useState(false)
         <nav className={cn(styles.menu, {
             [styles.view]: show === true
         })}>
-            <ul className={styles.ul}>
-                <li className={styles.li}>dfgfhf</li>
-                <li className={styles.li}>dfgfhf</li>
-                <li className={styles.li}>dfgfhf</li>
-                <li className={styles.li}>dfgfhf</li>
+            <ul>
+                <li>
+                    <Link to='/workouts'>Workout</Link>
+                </li>
+                <li>
+                    <Link to='/new-workout'>Create New</Link>
+                </li>
+                <li>
+                    <Link to='/profile'>Profile</Link>
+                </li>
+                <li>
+                    <Link to='/'>Logout</Link>
+                </li>
             </ul>
         </nav>
       </div>
