@@ -19,11 +19,11 @@ const [show,setShow] = useState(false)
         <nav className={cn(styles.menu, {
             [styles.view]: show === true
         })}>
-            <ul style={{listStyleType: 'none'}}>
-                <li>dfgfhf</li>
-                <li>dfgfhf</li>
-                <li>dfgfhf</li>
-                <li>dfgfhf</li>
+            <ul className={styles.ul}>
+                <li className={styles.li}>dfgfhf</li>
+                <li className={styles.li}>dfgfhf</li>
+                <li className={styles.li}>dfgfhf</li>
+                <li className={styles.li}>dfgfhf</li>
             </ul>
         </nav>
       </div>
