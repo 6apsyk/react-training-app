@@ -1,12 +1,18 @@
+@import "../../../scss/variables";
 .input {
   background: #511734;
   border: 1px solid rgba(181, 52, 113, 0.3);
   box-sizing: border-box;
   border-radius: 10px;
-  color: white;
-  padding: 15px;
+  color: $white;
+  padding: 15px 10px;
   margin-bottom: 30px;
   width: 350px;
   font-size: 16px;
   line-height: 19px;
+  &::placeholder {
+    font-size: 14px;
+    line-height: 19px;
+    // color: #946e86;
+  }
 }

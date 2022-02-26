@@ -9,7 +9,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   &:hover {
-    background-color: rgba($accent, 0.7);
+    background-color: $accent;
   }
 }
 .ligth {
