@@ -1,0 +1,29 @@
+@import "../../../scss/variables";
+.wrapper {
+  width: 350px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  height: 60vh;
+
+  & .wrapperButton {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+  > div {
+    &:last-child > button {
+      background-color: red;
+    }
+  }
+}
+
+.singup {
+  background-color: rgb(10, 10, 109);
+  &:hover {
+    background-color: rgb(12, 12, 182);
+  }
+}

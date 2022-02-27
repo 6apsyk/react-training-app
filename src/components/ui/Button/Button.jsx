@@ -3,7 +3,8 @@ import styles from './Button.module.scss'
 import cn from 'classnames'
 
 
-function Button({children, callback, appearance = 'ligth', className, ...props}) {
+function Button({children, appearance = 'ligth', className, ...props}) {
+  console.log('Classname', className)
   return (
       <div className={styles.wrapper}>
         <button 

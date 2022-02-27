@@ -1,0 +1,22 @@
+@import "../../../scss/animations";
+@import "../../../scss/variables";
+
+.msg {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: large;
+  animation: opacity 0.4s ease;
+  color: $white;
+}
+.success {
+  background-color: rgb(13, 165, 102);
+}
+.warning {
+  background-color: #d7882e;
+}
+.info {
+  background-color: #15a4b7;
+}

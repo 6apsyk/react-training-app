@@ -14,7 +14,7 @@ function Header() {
     <header className={styles.header}>
         {pathname === '/' 
         ?
-                      <Link to='/'>
+                      <Link to='/auth'>
                         <img className={styles.image} src={userIcon} alt="user"/>
                       </Link>
            

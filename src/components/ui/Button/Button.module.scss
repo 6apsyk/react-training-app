@@ -25,3 +25,9 @@
 .wrapper {
   text-align: center;
 }
+.singup {
+  background-color: rgb(10, 10, 109);
+  &:hover {
+    background-color: rgb(12, 12, 182);
+  }
+}
