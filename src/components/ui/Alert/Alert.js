@@ -7,7 +7,7 @@ function Alert({ type = "success", msg = "You are been successfully" }) {
     <div
       className={cn(styles.msg, {
         [styles.success]: type === "success",
-        [styles.warning]: type === "warning",
+        [styles.error]: type === "error",
         [styles.info]: type === "info",
       })}
     >

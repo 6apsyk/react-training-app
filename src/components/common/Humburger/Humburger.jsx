@@ -12,7 +12,7 @@ function Humburger() {
 
 const [show,setShow] = useState(false)
 
-const handleLogout = () => {}
+// const handleLogout = () => {}
 
   return (
       <div className={styles.wrapper}>
