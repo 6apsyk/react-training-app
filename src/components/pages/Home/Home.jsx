@@ -9,7 +9,6 @@ import styles from './Home.module.scss'
 function Home() {
   return (
       <Layout bgImg={bgImg}>
-        
         <Button appearance='ligth'>New</Button>
         <h1 className={styles.heading}>EXERCISES FOR THE SHOULDERS</h1>
         <Counters/>

@@ -22,18 +22,18 @@
   li {
     margin-bottom: 8px;
   }
-  a {
-    text-decoration: none;
-    color: black;
-    font-size: 20px;
-    line-height: 20px;
-    transition: all 0.2s ease;
-    margin-bottom: 8px;
-  }
-  a:hover,
-  a:active {
-    color: $accent;
-  }
+  // a {
+  //   text-decoration: none;
+  //   color: black;
+  //   font-size: 20px;
+  //   line-height: 20px;
+  //   transition: all 0.2s ease;
+  //   margin-bottom: 8px;
+  // }
+  // a:hover,
+  // a:active {
+  //   color: $accent;
+  // }
 }
 .view {
   display: block;
@@ -50,8 +50,8 @@ button {
   font-style: $default-font;
   text-decoration: none;
   color: black;
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 18px;
+  line-height: 10px;
   transition: all 0.2s ease;
   &:hover,
   &:active {

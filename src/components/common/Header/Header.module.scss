@@ -20,3 +20,17 @@
   display: flex;
   align-items: center;
 }
+.span {
+  color: $white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  letter-spacing: 1px;
+  height: 27px;
+  &:hover {
+    background-color: #511734;
+    padding: 0 5px;
+    border-radius: 6px;
+    opacity: 0.8;
+  }
+}

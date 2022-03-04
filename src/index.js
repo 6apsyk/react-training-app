@@ -3,10 +3,9 @@ import ReactDOM from "react-dom";
 import App from "./App";
 
 import "./scss/index.scss";
-// import { QueryClient, QueryClientProvider } from "react-query";
-// import { ReactQueryDevtools } from "react-query/devtools";
 
-// const queryClient = new QueryClient();
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -21,7 +20,9 @@ const auth = getAuth();
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseAuthContext.Provider value={auth}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </FirebaseAuthContext.Provider>
   </React.StrictMode>,
   document.getElementById("root")

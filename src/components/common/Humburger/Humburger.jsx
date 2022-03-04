@@ -9,49 +9,58 @@ import { Link } from 'react-router-dom'
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter'
 import { FirebaseAuthContext } from '../../contexts/firebaseAuth'
 import { signOut } from 'firebase/auth'
-import { useAuth } from '../../hooks/useAuth'
+import { useDispatch } from 'react-redux'
+import { setIsAuth, setUserEmail } from '../../../redux/appSlice'
+import { useNavigate } from "react-router-dom";
 
 
 const Humburger =()=> {
 
-const auth = useContext(FirebaseAuthContext)
-const {isAuth, setIsAuth} = useAuth()
+    let navigate = useNavigate();
 
-const {ref, isComponentVisible, setIsComponentVisible} = useOutsideAlerter(false)
+    const auth = useContext(FirebaseAuthContext)
+    const dispatch = useDispatch()
 
-const handleLogout = () => {
-    signOut(auth)
-    .then(() => setIsComponentVisible(false))
-    .then(() => setIsAuth(false))
-    .catch((error) => console.log('ошибка выхода', error.message))
-}
+    const {ref, isComponentVisible, setIsComponentVisible} = useOutsideAlerter(false)
 
-  return (
-      <div className={styles.wrapper} ref={ref}>
-        <button style={{width: 27, heigth: 27}} onClick={()=>setIsComponentVisible(isComponentVisible => !isComponentVisible)}>
-            <img src={isComponentVisible ? hamburgerClose : hamburgerIcon} alt="hamburger" />
-        </button>
-        <nav className={cn(styles.menu, {
-            [styles.view]: isComponentVisible === true
-        })}>
-            <ul>
-                <li>
-                    <Link to='/workouts'>Workout</Link>
-                </li>
-                <li>
-                    <Link to='/new-workout'>Create New</Link>
-                </li>
-                <li>
-                    <Link to='/profile'>Profile</Link>
-                </li>
-                <li>
-                    <button onClick={handleLogout}>Logout</button>
-                </li>
-            </ul>
-        </nav>
-      </div>
-        
-  )
+    const handleLogout = () => {
+        signOut(auth)
+        .then(() => {
+            setIsComponentVisible(false)
+            dispatch(setIsAuth(false)) 
+            localStorage.removeItem('email')
+            dispatch(setUserEmail(''))   
+        })
+        .then(() => navigate('/'))
+        .catch((error) => console.log('ошибка выхода', error.message))
+    }
+
+    return (
+        <div className={styles.wrapper} ref={ref}>
+            <button style={{width: 27, heigth: 27}} onClick={()=>setIsComponentVisible(isComponentVisible => !isComponentVisible)}>
+                <img src={isComponentVisible ? hamburgerClose : hamburgerIcon} alt="hamburger" />
+            </button>
+            <nav className={cn(styles.menu, {
+                [styles.view]: isComponentVisible === true
+            })}>
+                <ul>
+                    <li>
+                        <button className={styles.logout} onClick={() => navigate('/workout')}>Workout</button>
+                    </li>
+                    <li>
+                        <button className={styles.logout} onClick={() => navigate('/new-workout')}>Create New</button>
+                    </li>
+                    <li>
+                        <button className={styles.logout} onClick={() => navigate('/profile')}>Profile</button>
+                    </li>
+                    <li>
+                        <button className={styles.logout} onClick={handleLogout}>Logout</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+            
+    )
 }
 
 export default Humburger
