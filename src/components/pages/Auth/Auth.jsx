@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import newWorkoutImg from "../../../images/new-workout.jpg";
 import styles from "./Auth.module.scss";
@@ -6,39 +6,75 @@ import Field from "../../ui/Field/Field";
 import Button from "../../ui/Button/Button";
 import { useState } from "react";
 import Alert from "../../ui/Alert/Alert";
-import { useMutation } from "react-query";
-import { $api } from "../../../api/api";
 import Loader from "../../ui/Loader/Loader";
 
-function Auth() {
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { FirebaseAuthContext } from "../../contexts/firebaseAuth";
+import { useAuth } from "../../hooks/useAuth";
+
+const Auth = () => {
+
+  const auth = useContext(FirebaseAuthContext)
+
+  const {isAuth, setIsAuth} = useAuth()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("");
+  const [errorMessage, setErrorMessage] = useState('')
+  const [type, setType] = useState("sing");
 
-  const {mutate: register, isLoading, error} = useMutation('Registration', () => $api({
-     url: '/users',
-     body: {email, password}, 
-     type: "POST",
-     auth: false
-    }),{
-      onSuccess(data){
-        console.log((data))
-      }
-    }
-    
-    )
+  const [successAuth, setSuccessAuth] = useState(false)
+  const [successSing, setSuccessSing] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true)
+    setError(false)
+
     if (type === "log") {
-      console.log('ВХОД')
+       signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('USER-login',user)
+        setIsLoading(false)
+        setSuccessAuth(true)
+      })
+      .catch((error) => {
+        setErrorMessage(error.message)
+        setError(true)
+        setIsLoading(false)
+      });
     } else {
-      register()
+      createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('USER-Sing',user)
+        setIsLoading(false)
+        setSuccessSing(true)
+        setIsAuth(true)
+      })
+      .catch((error) => {
+        setErrorMessage(error.message)
+        setError(true)
+        setIsLoading(false)
+      });
+     
     }
   };
+  useEffect(() => {
+    if (successAuth || successSing){
+      setTimeout(()=> {
+        setSuccessAuth(false)
+        setSuccessSing(false)
+      }, 3000)
+    }
 
-console.log('error',error)
+  }, [successAuth,successSing])
+
   return (
     <>
       <Layout
@@ -47,12 +83,14 @@ console.log('error',error)
       ></Layout>
 
       <form className={styles.wrapper} onSubmit={handleSubmit}>
-        {error && <Alert type="error" msg={error} />}
+        {error && <Alert type="error" msg={errorMessage} />}
+        {successAuth && <Alert type="success" msg='Успешный вход' />}
+        {successSing && <Alert type="success" msg='Успешная регистрация' />}
         {/* <Alert type='warning' msg='warning'/>
           <Alert type='info' msg='info'/> */}
         {isLoading && <Loader/>}  
         <Field
-          placeholder="Enter Name"
+          placeholder="Enter E-mail"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

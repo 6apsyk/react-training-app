@@ -25,7 +25,7 @@ function NewWorkout() {
       </Layout>
       
         <form className={styles.wrapper} onSubmit={onSubmit}>
-          <Field placeholder='Enter Name' type='text' value={name} onChange={e => setName(e.target.value)}/>
+          <Field placeholder='Enter Name' type='text' value={name} required onChange={e => setName(e.target.value)}/>
           <Link className={styles.link} to='/new-exersice'>Add new exercise</Link>
           <ReactSelect
             classNamePrefix='select2-selection'
