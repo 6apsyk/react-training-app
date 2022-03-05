@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 
 import hamburgerIcon from '../../../images/hamburger.svg'
 import hamburgerClose from '../../../images/hamburger-close.svg'
 
 import styles from './Humburger.module.scss'
 import cn from 'classnames'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter'
 import { FirebaseAuthContext } from '../../contexts/firebaseAuth'
 import { signOut } from 'firebase/auth'

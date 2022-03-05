@@ -17,7 +17,7 @@ const Auth = () => {
 
   const auth = useContext(FirebaseAuthContext)
 
-  const { isAuth, userEmail, error, loading } = useSelector(state => state.app);
+  const { error, loading } = useSelector(state => state.app);
   const dispatch = useDispatch()
 
   const [email, setEmail] = useState("");

@@ -16,6 +16,7 @@ function App() {
       dispatch(setUserEmail(email));
       dispatch(setIsAuth(true));
     }
+    // eslint-disable-next-line
   }, []);
   return (
     <BrowserRouter>

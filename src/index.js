@@ -16,6 +16,8 @@ import { FirebaseAuthContext } from "./components/contexts/firebaseAuth";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
+console.log(app);
+console.log(db);
 
 ReactDOM.render(
   <React.StrictMode>
