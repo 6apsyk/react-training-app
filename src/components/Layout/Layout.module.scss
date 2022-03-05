@@ -3,7 +3,7 @@
   // width: 500px;
   min-width: 375px;
   max-width: 560px;
-  height: 100vh;
+  height: 90vh;
   padding: 30px;
   margin: 0 auto;
   display: flex;
@@ -11,6 +11,7 @@
   justify-content: space-between;
   background-repeat: no-repeat;
   background-size: cover;
+  border-radius: 20px;
 
   &.otherPage {
     height: 40vh;

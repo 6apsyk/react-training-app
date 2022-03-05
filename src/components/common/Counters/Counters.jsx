@@ -1,21 +1,26 @@
 import React from "react";
 import styles from "./Counters.module.scss";
 
-function Counters() {
-  const counters = {
-    Minutes: 7,
-    Level: "HARD",
-    Up: 1,
-  };
+function Counters({userStatitic}) {
+
+  const {minutes, level, up} = userStatitic
 
   return (
     <div className={styles.wrapper}>
-      {Object.entries(counters).map((el, i) => (
-        <div className={styles.count} key={el[0]}>
-          <div className={styles.heading}>{el[0]}</div>
-          <div className={styles.number}>{el[1]}</div>
+      
+        <div className={styles.count}>
+          <div className={styles.heading}>Minutes</div>
+          <div className={styles.number}>{minutes}</div>
         </div>
-      ))}
+        <div className={styles.count}>
+          <div className={styles.heading}>Level</div>
+          <div className={styles.number}>{level}</div>
+        </div>
+        <div className={styles.count}>
+          <div className={styles.heading}>Up</div>
+          <div className={styles.number}>{up}</div>
+        </div>
+    
     </div>
   );
 }

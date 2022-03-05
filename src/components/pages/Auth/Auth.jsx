@@ -13,7 +13,20 @@ import { FirebaseAuthContext } from "../../contexts/firebaseAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuth, setUserEmail, setLoading, setError } from '../../../redux/appSlice'
 
+import {
+  collection,
+  addDoc,
+  
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+
+import {db} from '../../../index'
+
 const Auth = () => {
+
+  const collectionStatistic = collection(db, "statistic");
 
   const auth = useContext(FirebaseAuthContext)
 
@@ -57,14 +70,29 @@ const Auth = () => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        
         dispatch(setIsAuth(true))
-
         const user = userCredential.user;
         localStorage.setItem('email',`${user.email}`)
         dispatch(setUserEmail(user.email))
-         
+        
         dispatch(setLoading(false))
         setSuccessAuth(true)
+      })
+      .then(() => {
+        const q = query(collectionStatistic, where('email', '==', `${localStorage.getItem('email')}`));
+        onSnapshot(q, (snapshot) => {
+          if (snapshot.docs.length === 0){
+            addDoc(collectionStatistic, {
+              email: localStorage.getItem('email'),
+              minutes: 0,
+              level: 'HARD',
+              up: 0
+              // createdAt: serverTimestamp(),
+            })
+              .then(() => console.log('Успешное добавление статистики:', localStorage.getItem('email')))
+          }
+        });
       })
       .catch((error) => {
         setErrorMessage(error.message)
@@ -78,7 +106,7 @@ const Auth = () => {
       setTimeout(()=> {
         setSuccessAuth(false)
         setSuccessSing(false)
-      }, 3000)
+      }, 1500)
     }
 
   }, [successAuth,successSing])

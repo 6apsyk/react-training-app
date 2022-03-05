@@ -14,7 +14,7 @@ import { firebaseConfig } from "./api/firebase";
 import { FirebaseAuthContext } from "./components/contexts/firebaseAuth";
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
+export const db = getFirestore();
 const auth = getAuth();
 console.log(app);
 console.log(db);
