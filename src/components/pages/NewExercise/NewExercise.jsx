@@ -77,6 +77,7 @@ function NewExercise() {
     return () => {
       dispatch(setError(false));
     };
+    // eslint-disable-next-line
   }, []);
 
   return (
