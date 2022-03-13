@@ -26,7 +26,7 @@ function Header() {
                         {!isAuth && <Link to={isAuth ? '/profile' : '/auth'}>
                           <img className={styles.image} src={userIcon} alt="user"/>
                         </Link>}
-                        <span className={styles.span} onClick={()=> navigate('/profile')}>{userEmail}</span>
+                        <span className={styles.span} onClick={()=> navigate('/profile')}>{userEmail.split('@')[0]}</span>
                       </div>
                       
           :
@@ -34,7 +34,7 @@ function Header() {
                         {!isAuth && <Link to='/'>
                           <img className={styles.image} src={arrowIcon} alt="arrow"/>
                         </Link>}
-                        <span className={styles.span} onClick={()=> navigate('/profile')}>{userEmail}</span>
+                        <span className={styles.span} onClick={()=> navigate('/profile')}>{userEmail.split('@')[0]}</span>
                       </div>
       }
         

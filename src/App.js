@@ -5,6 +5,7 @@ import Auth from "./components/pages/Auth/Auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setIsAuth, setUserEmail } from "./redux/appSlice";
+import NewExercise from "./components/pages/NewExercise/NewExercise";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/new-workout" element={<NewWorkout />} />
+        <Route path="/new-exersice" element={<NewExercise />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="*" element={<Home />} />
       </Routes>
