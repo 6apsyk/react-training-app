@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Layout.module.scss";
 import Header from "../common/Header/Header";
 import cn from "classnames";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import newExersiceImg from "../../../images/new-exersice.jpg";
 import styles from "./NewExercise.module.scss";
@@ -21,100 +21,98 @@ import Alert from "../../ui/Alert/Alert";
 import Loader from "../../ui/Loader/Loader";
 
 const data = [
-  { image: chest, name: "chest" },
-  { image: shoulders, name: "shoulders" },
-  { image: biceps, name: "biceps" },
-  { image: legs, name: "legs" },
-  { image: hit, name: "hit" },
+    { image: chest, name: "chest" },
+    { image: shoulders, name: "shoulders" },
+    { image: biceps, name: "biceps" },
+    { image: legs, name: "legs" },
+    { image: hit, name: "hit" },
 ];
 
 function NewExercise() {
-  // const collectionStatistic = collection(db, "statistic");
-  const { loading, error, uid } = useSelector(state => state.app);
-  const dispatch = useDispatch();
+    // const collectionStatistic = collection(db, "statistic");
+    const { loading, error, documentId } = useSelector(state => state.app);
+    const dispatch = useDispatch();
 
-  const [name, setName] = useState("");
-  const [times, setTimes] = useState(3);
-  const [imageName, setImageName] = useState(data[0].name);
+    const [name, setName] = useState("");
+    const [times, setTimes] = useState(3);
+    const [imageName, setImageName] = useState(data[0].name);
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [success, setSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [success, setSuccess] = useState(false);
 
-  const onSubmit = e => {
-    e.preventDefault();
+    const onSubmit = e => {
+        e.preventDefault();
 
-    dispatch(setLoading(true));
-    dispatch(setError(false));
+        dispatch(setLoading(true));
+        dispatch(setError(false));
 
-    if (name && times && imageName) {
-      const docRef = doc(db, "statistic", localStorage.getItem("uid") || uid);
-      updateDoc(docRef, {
-        nameExersice: name,
-        times: times,
-        imageName: imageName,
-      })
-        .then(() => {
-          dispatch(setLoading(false));
-          setSuccess(true);
-        })
-        .catch(error => {
-          dispatch(setLoading(false));
-          setErrorMessage(error.message);
-          dispatch(setError(true));
-        });
-    }
-  };
-
-  useEffect(() => {
-    if (success) {
-      setTimeout(() => {
-        setSuccess(false);
-      }, 1500);
-    }
-  }, [success]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(setError(false));
+        if (name && times && imageName) {
+            const docRef = doc(db, "statistic", localStorage.getItem("documentId") || documentId);
+            updateDoc(docRef, {
+                exersices: [
+                    {
+                        nameExersice: name,
+                        times: times,
+                        imageName: imageName,
+                    },
+                ],
+            })
+                .then(() => {
+                    dispatch(setLoading(false));
+                    setSuccess(true);
+                })
+                .catch(error => {
+                    dispatch(setLoading(false));
+                    setErrorMessage(error.message);
+                    dispatch(setError(true));
+                });
+        }
     };
-    // eslint-disable-next-line
-  }, []);
 
-  return (
-    <>
-      <Layout bgImg={newExersiceImg} heading="Create New Exercise"></Layout>
+    useEffect(() => {
+        if (success) {
+            setTimeout(() => {
+                setSuccess(false);
+            }, 1500);
+        }
+    }, [success]);
 
-      <form className={styles.wrapper} onSubmit={onSubmit}>
-        {error && <Alert type="error" msg={errorMessage.split(":")[0]} />}
-        {success && <Alert type="success" msg="Тренировка добавлена" />}
-        {loading && <Loader />}
-        <Field placeholder="Enter Name" type="text" value={name} required onChange={e => setName(e.target.value)} />
-        <Field
-          placeholder="Enter Times"
-          type="number"
-          value={times}
-          required
-          onChange={e => setTimes(e.target.value)}
-        />
-        <div className={styles.images}>
-          {data.map(el => (
-            <img
-              className={cn(styles.image, {
-                [styles.active]: el.name === imageName,
-              })}
-              key={el.name}
-              src={el.image}
-              alt={el.name}
-              onClick={() => setImageName(el.name)}
-            />
-          ))}
-        </div>
-        <Button style={{ marginTop: "30px" }} appearance="small">
-          Create
-        </Button>
-      </form>
-    </>
-  );
+    useEffect(() => {
+        return () => {
+            dispatch(setError(false));
+        };
+        // eslint-disable-next-line
+    }, []);
+
+    return (
+        <>
+            <Layout bgImg={newExersiceImg} heading="Create New Exercise"></Layout>
+
+            <form className={styles.wrapper} onSubmit={onSubmit}>
+                {error && <Alert type="error" msg={errorMessage.split(":")[0]} />}
+                {success && <Alert type="success" msg="Тренировка добавлена" />}
+                {loading && <Loader />}
+                <Field placeholder="Enter Name" type="text" value={name} required onChange={e => setName(e.target.value)} />
+                <Field placeholder="Enter Times" type="number" value={times} required onChange={e => setTimes(e.target.value)} />
+                <div className={styles.images}>
+                    {data.map(el => (
+                        <img
+                            className={cn(styles.image, {
+                                [styles.active]: el.name === imageName,
+                            })}
+                            key={el.name}
+                            src={el.image}
+                            alt={el.name}
+                            onClick={() => setImageName(el.name)}
+                        />
+                    ))}
+                </div>
+                <Button style={{ marginTop: "30px" }} appearance="small">
+                    Create
+                </Button>
+            </form>
+        </>
+    );
 }
 
 export default NewExercise;

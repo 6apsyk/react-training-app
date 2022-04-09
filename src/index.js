@@ -9,23 +9,19 @@ import { Provider } from "react-redux";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { firebaseConfig } from "./api/firebase";
-import { FirebaseAuthContext } from "./components/contexts/firebaseAuth";
+import { getAuth } from "firebase/auth";
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 export const db = getFirestore();
-const auth = getAuth();
-console.log(app);
-console.log(db);
+console.log("IndexAUTH", auth);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <FirebaseAuthContext.Provider value={auth}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </FirebaseAuthContext.Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+    <React.StrictMode>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById("root")
 );
