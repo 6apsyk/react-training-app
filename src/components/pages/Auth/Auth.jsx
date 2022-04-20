@@ -12,12 +12,14 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } f
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuth, setUserEmail, setLoading, setError } from "../../../redux/appSlice";
 
-import { collection, addDoc, onSnapshot, query, where } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, query, where, serverTimestamp } from "firebase/firestore";
 
 import { db } from "../../../index";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
     const auth = getAuth();
+    let navigate = useNavigate();
 
     const collectionStatistic = collection(db, "statistic");
 
@@ -81,7 +83,9 @@ const Auth = () => {
                             minutes: 0,
                             level: "HARD",
                             up: 0,
-                            // createdAt: serverTimestamp(),
+                            createdAt: serverTimestamp(),
+                            exersices: [],
+                            workout: [],
                         }).then(() => console.log("Успешное добавление статистики:", localStorage.getItem("email")));
                     }
                 });
@@ -98,9 +102,11 @@ const Auth = () => {
             setTimeout(() => {
                 setSuccessAuth(false);
                 setSuccessSing(false);
+                navigate("/");
             }, 1500);
         }
-    }, [successAuth, successSing]);
+        // eslint-disable-next-lines
+    }, [successAuth, successSing, navigate]);
 
     useEffect(() => {
         return () => {

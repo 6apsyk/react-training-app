@@ -5,13 +5,15 @@ import styles from "./Humburger.module.scss";
 import cn from "classnames";
 // import { Link } from 'react-router-dom'
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
-import { useDispatch } from "react-redux";
-import { setIsAuth, setUserEmail, setDocumentId } from "../../../redux/appSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsAuth, setUserEmail, setDocumentId, setUserStatistic } from "../../../redux/appSlice";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 
 const Humburger = () => {
     let navigate = useNavigate();
+
+    const { isAuth } = useSelector(state => state.app);
 
     const dispatch = useDispatch();
 
@@ -28,6 +30,7 @@ const Humburger = () => {
                 localStorage.removeItem("documentId");
                 dispatch(setUserEmail(""));
                 dispatch(setDocumentId(""));
+                dispatch(setUserStatistic({}));
             })
             .then(() => navigate("/"))
             .catch(error => console.log("ошибка выхода", error.message));
@@ -50,12 +53,12 @@ const Humburger = () => {
                         </button>
                     </li>
                     <li>
-                        <button className={styles.logout} onClick={() => navigate("/new-workout")}>
+                        <button className={styles.logout} onClick={() => isAuth && navigate("/new-workout")}>
                             Create New
                         </button>
                     </li>
                     <li>
-                        <button className={styles.logout} onClick={() => navigate("/profile")}>
+                        <button className={styles.logout} onClick={() => isAuth && navigate("/profile")}>
                             Profile
                         </button>
                     </li>

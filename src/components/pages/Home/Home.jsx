@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Counters from "../../common/Counters/Counters";
 import Layout from "../../Layout/Layout";
 import Button from "../../ui/Button/Button";
@@ -8,51 +8,46 @@ import styles from "./Home.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { db } from "../../../index";
-import { setDocumentId } from "../../../redux/appSlice";
+import { setDocumentId, setUserStatistic } from "../../../redux/appSlice";
 
 // let snap = null;
 
 function Home() {
-    const [userStatitic, setUserStatistic] = useState({});
-
-    const { userEmail, isAuth } = useSelector(state => state.app);
+    const { userStatitic, isAuth, userEmail } = useSelector(state => state.app);
+    console.log("isAuth", isAuth);
     const dispatch = useDispatch();
 
     const collectionStatistic = collection(db, "statistic");
 
     useEffect(() => {
-        if (isAuth) {
-            // const docRef = doc(db, "statistic", localStorage.getItem("uid"));
-            // onSnapshot(docRef, doc => {
-            //   console.log("Измененный документ", doc.data(), doc.id);
-            // });
-            const q = query(collectionStatistic, where("email", "==", `${userEmail}`));
-            onSnapshot(q, snapshot => {
-                let stat = [];
-                snapshot.docs.forEach(doc => {
-                    stat.push({ ...doc.data(), id: doc.id });
-                    // console.log(doc.data(), doc.id);
+        async function getDocument() {
+            if (isAuth) {
+                const q = query(collectionStatistic, where("email", "==", `${userEmail}`));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach(doc => {
+                    dispatch(setDocumentId(doc.id));
+                    localStorage.setItem("documentId", doc.id);
+                    const { minutes, level, up, exersices, workout } = doc.data();
+                    console.log(minutes, level, up, exersices, workout);
+                    dispatch(setUserStatistic({ minutes, level, up, exersices, workout }));
                 });
-                setUserStatistic(stat[0]);
-                dispatch(setDocumentId(stat[0].id));
-                localStorage.setItem("documentId", stat[0].id);
-            });
-        } else {
-            setUserStatistic({});
+            }
+            // else {
+            //     setUserStatistic({});
+            // }
         }
-        // return () => {
-        //   snap();
-        // };
+        getDocument();
+
         // eslint-disable-next-line
     }, [isAuth]);
 
     const navigate = useNavigate();
     return (
         <Layout bgImg={bgImg}>
-            <Button appearance="ligth" onClick={() => navigate("/new-workout")}>
+            <Button appearance="ligth" onClick={() => isAuth && navigate("/new-workout")}>
                 New
             </Button>
             <h1 className={styles.heading}>EXERCISES FOR THE SHOULDERS</h1>

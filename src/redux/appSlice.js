@@ -6,6 +6,7 @@ const initialState = {
     loading: false,
     userEmail: "",
     documentId: "none",
+    userStatitic: {},
 };
 
 export const appSlice = createSlice({
@@ -27,10 +28,13 @@ export const appSlice = createSlice({
         setDocumentId: (state, action) => {
             state.documentId = action.payload;
         },
+        setUserStatistic: (state, action) => {
+            state.userStatitic = action.payload;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsAuth, setUserEmail, setLoading, setError, setDocumentId } = appSlice.actions;
+export const { setIsAuth, setUserEmail, setLoading, setError, setDocumentId, setUserStatistic } = appSlice.actions;
 
 export default appSlice.reducer;

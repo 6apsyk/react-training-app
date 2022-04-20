@@ -14,11 +14,13 @@ import cn from "classnames";
 
 import { db } from "../../../index";
 
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { setError, setLoading } from "../../../redux/appSlice";
 import Alert from "../../ui/Alert/Alert";
 import Loader from "../../ui/Loader/Loader";
+
+import { v4 as uuidv4 } from "uuid";
 
 const data = [
     { image: chest, name: "chest" },
@@ -34,7 +36,7 @@ function NewExercise() {
     const dispatch = useDispatch();
 
     const [name, setName] = useState("");
-    const [times, setTimes] = useState(3);
+    const [times, setTimes] = useState("");
     const [imageName, setImageName] = useState(data[0].name);
 
     const [errorMessage, setErrorMessage] = useState("");
@@ -48,24 +50,25 @@ function NewExercise() {
 
         if (name && times && imageName) {
             const docRef = doc(db, "statistic", localStorage.getItem("documentId") || documentId);
-            updateDoc(docRef, {
-                exersices: [
-                    {
+            if (docRef) {
+                updateDoc(docRef, {
+                    exersices: arrayUnion({
+                        id: uuidv4(),
                         nameExersice: name,
                         times: times,
                         imageName: imageName,
-                    },
-                ],
-            })
-                .then(() => {
-                    dispatch(setLoading(false));
-                    setSuccess(true);
+                    }),
                 })
-                .catch(error => {
-                    dispatch(setLoading(false));
-                    setErrorMessage(error.message);
-                    dispatch(setError(true));
-                });
+                    .then(() => {
+                        dispatch(setLoading(false));
+                        setSuccess(true);
+                    })
+                    .catch(error => {
+                        dispatch(setLoading(false));
+                        setErrorMessage(error.message);
+                        dispatch(setError(true));
+                    });
+            }
         }
     };
 
@@ -90,7 +93,7 @@ function NewExercise() {
 
             <form className={styles.wrapper} onSubmit={onSubmit}>
                 {error && <Alert type="error" msg={errorMessage.split(":")[0]} />}
-                {success && <Alert type="success" msg="Тренировка добавлена" />}
+                {success && <Alert type="success" msg="Упражнение успешно добавлено" />}
                 {loading && <Loader />}
                 <Field placeholder="Enter Name" type="text" value={name} required onChange={e => setName(e.target.value)} />
                 <Field placeholder="Enter Times" type="number" value={times} required onChange={e => setTimes(e.target.value)} />
